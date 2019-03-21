@@ -1,0 +1,87 @@
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number:
+            67:b5:ff:d1:0d:6a:ed:37:2c:28:d5:3b:17:b9:b2:79
+    Signature Algorithm: sha256WithRSAEncryption
+        Issuer: CN=Freeradius Dev CA
+        Validity
+            Not Before: Jul 10 01:29:26 2018 GMT
+            Not After : Jul  7 01:29:26 2028 GMT
+        Subject: CN=Postgres
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                Public-Key: (2048 bit)
+                Modulus:
+                    00:bc:66:3f:59:33:af:ea:52:5c:4f:5a:be:da:6f:
+                    8d:89:5e:70:f1:af:48:e0:15:55:7f:f4:7f:ab:56:
+                    f9:9a:b1:63:1a:d4:61:03:36:97:74:0e:9b:19:41:
+                    0c:3c:57:91:bb:4f:04:7e:ec:3b:24:dc:2a:10:1e:
+                    f7:c9:e1:76:e9:aa:20:81:7d:52:4b:6c:e6:5e:85:
+                    e2:a2:20:5c:21:72:1f:10:e2:60:77:35:3b:e3:c7:
+                    ac:43:ed:01:ef:1c:af:c5:ef:b2:d8:fd:de:3c:dd:
+                    69:ba:1c:99:3b:c7:45:52:ac:7c:dc:1d:2d:a8:dc:
+                    55:45:bb:f8:50:f8:05:f5:7f:8f:dd:7a:3d:f6:e7:
+                    a0:23:fa:0e:3b:23:9b:3d:88:17:69:96:63:52:9c:
+                    54:7d:3d:0b:34:38:70:b9:a8:85:41:21:80:a4:d3:
+                    4d:12:81:a5:2b:4a:51:1e:a1:ae:2b:55:6d:b8:d4:
+                    7a:5a:aa:9a:a4:4f:e4:56:1d:5a:dc:80:ab:e6:6b:
+                    76:00:2a:db:9e:3b:07:ba:1c:ec:ff:14:4a:57:c5:
+                    21:bc:91:d7:5a:eb:e0:cf:41:f8:77:0e:2f:0f:86:
+                    2c:10:56:fe:7a:c3:e4:ac:12:b4:c7:a3:98:ac:42:
+                    93:59:48:80:4f:cc:f3:53:93:4e:22:0d:88:7d:c0:
+                    70:49
+                Exponent: 65537 (0x10001)
+        X509v3 extensions:
+            X509v3 Basic Constraints: 
+                CA:FALSE
+            X509v3 Subject Key Identifier: 
+                1E:38:61:B8:49:9E:76:81:39:55:5D:20:0C:7E:9F:08:0D:51:B5:02
+            X509v3 Authority Key Identifier: 
+                keyid:B4:D3:FE:95:FD:6C:8E:E9:5B:39:83:3C:82:E2:2F:E5:69:EC:77:C2
+                DirName:/CN=Freeradius Dev CA
+                serial:BE:BC:EE:C9:64:62:23:BF
+
+            X509v3 Extended Key Usage: 
+                TLS Web Server Authentication
+            X509v3 Key Usage: 
+                Digital Signature, Key Encipherment
+            X509v3 Subject Alternative Name: 
+                DNS:Postgres
+    Signature Algorithm: sha256WithRSAEncryption
+         4f:83:08:6b:e1:5d:a6:03:61:99:24:fd:39:90:af:a6:29:52:
+         db:79:d1:4b:ef:12:29:de:2e:76:59:9c:0f:a2:ea:66:6a:b6:
+         5b:37:37:9b:d3:cd:05:be:a6:ac:4f:23:82:0e:dd:cf:19:f8:
+         8c:b9:2f:74:18:b6:13:5a:14:dd:a5:d1:c7:64:df:8f:7b:cd:
+         18:29:32:59:d8:39:53:8a:5d:7b:06:86:cb:be:7c:a2:1e:1e:
+         ec:30:91:15:bc:a7:54:e5:dc:cf:f8:58:bd:7b:c8:cc:68:82:
+         76:3b:85:10:aa:0e:5e:dc:91:5a:a5:a4:ec:99:da:d8:3a:59:
+         9d:3b:0e:a7:14:a9:7b:34:57:ec:23:a0:4b:6b:cc:e9:16:ed:
+         6f:d1:b8:5f:45:f6:2c:d4:c1:00:4d:f4:ed:94:c5:e0:95:98:
+         f4:dc:0d:99:ab:97:50:97:2e:2e:5f:2a:42:96:f2:8b:80:ef:
+         05:d9:90:75:ff:da:71:8f:df:f8:2b:46:cb:b4:29:19:6d:88:
+         5a:35:4e:b2:9a:94:4b:d9:04:c6:ba:c2:2e:2e:37:22:84:16:
+         d6:17:de:65:c2:26:15:1e:2c:4f:16:12:88:e2:0c:e5:d3:d5:
+         9b:4a:ed:4d:41:cd:dd:10:82:88:7d:56:79:73:2a:90:cc:58:
+         df:b5:18:ce
+-----BEGIN CERTIFICATE-----
+MIIDbDCCAlSgAwIBAgIQZ7X/0Q1q7TcsKNU7F7myeTANBgkqhkiG9w0BAQsFADAc
+MRowGAYDVQQDDBFGcmVlcmFkaXVzIERldiBDQTAeFw0xODA3MTAwMTI5MjZaFw0y
+ODA3MDcwMTI5MjZaMBMxETAPBgNVBAMMCFBvc3RncmVzMIIBIjANBgkqhkiG9w0B
+AQEFAAOCAQ8AMIIBCgKCAQEAvGY/WTOv6lJcT1q+2m+NiV5w8a9I4BVVf/R/q1b5
+mrFjGtRhAzaXdA6bGUEMPFeRu08Efuw7JNwqEB73yeF26aoggX1SS2zmXoXioiBc
+IXIfEOJgdzU748esQ+0B7xyvxe+y2P3ePN1puhyZO8dFUqx83B0tqNxVRbv4UPgF
+9X+P3Xo99uegI/oOOyObPYgXaZZjUpxUfT0LNDhwuaiFQSGApNNNEoGlK0pRHqGu
+K1VtuNR6WqqapE/kVh1a3ICr5mt2ACrbnjsHuhzs/xRKV8UhvJHXWuvgz0H4dw4v
+D4YsEFb+esPkrBK0x6OYrEKTWUiAT8zzU5NOIg2IfcBwSQIDAQABo4GyMIGvMAkG
+A1UdEwQCMAAwHQYDVR0OBBYEFB44YbhJnnaBOVVdIAx+nwgNUbUCMEwGA1UdIwRF
+MEOAFLTT/pX9bI7pWzmDPILiL+Vp7HfCoSCkHjAcMRowGAYDVQQDDBFGcmVlcmFk
+aXVzIERldiBDQYIJAL687slkYiO/MBMGA1UdJQQMMAoGCCsGAQUFBwMBMAsGA1Ud
+DwQEAwIFoDATBgNVHREEDDAKgghQb3N0Z3JlczANBgkqhkiG9w0BAQsFAAOCAQEA
+T4MIa+FdpgNhmST9OZCvpilS23nRS+8SKd4udlmcD6LqZmq2Wzc3m9PNBb6mrE8j
+gg7dzxn4jLkvdBi2E1oU3aXRx2Tfj3vNGCkyWdg5U4pdewaGy758oh4e7DCRFbyn
+VOXcz/hYvXvIzGiCdjuFEKoOXtyRWqWk7Jna2DpZnTsOpxSpezRX7COgS2vM6Rbt
+b9G4X0X2LNTBAE307ZTF4JWY9NwNmauXUJcuLl8qQpbyi4DvBdmQdf/acY/f+CtG
+y7QpGW2IWjVOspqUS9kExrrCLi43IoQW1hfeZcImFR4sTxYSiOIM5dPVm0rtTUHN
+3RCCiH1WeXMqkMxY37UYzg==
+-----END CERTIFICATE-----

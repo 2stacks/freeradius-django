@@ -1,0 +1,57 @@
+version: '3.2'
+
+services:
+
+  freeradius:
+    image: 2stacks/freeradius-django:latest
+    ports:
+      - "1812:1812/udp"
+      - "1813:1813/udp"
+    #volumes:
+      #- "./certs/freeradius:/etc/raddb/certs"
+    environment:
+      #- DB_NAME=radius
+      #- DB_HOST=postgres
+      #- DB_USER=debug
+      #- DB_PASS=debug
+      #- DB_PORT=5432
+      - API_HOST=10.0.0.1
+      - API_PORT=8000
+      - API_PROTOCOL=http
+      - API_TOKEN=djangofreeradiusapitoken
+      - RADIUS_SSL_MODE=require
+      #- RADIUS_KEY=testing123
+      #- RADIUS_CLIENTS=10.0.0.0/24
+      - RADIUS_DEBUG=yes
+    depends_on:
+      - postgres
+    restart: always
+    networks:
+      - backend
+
+  postgres:
+    image: postgres:10-alpine
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data_local:/var/lib/postgresql/data
+      - ./certs/postgres/server.crt:/server.crt
+      - ./certs/postgres/server.key:/server.key
+      - ./certs/postgres/ca.crt:/ca.crt
+    environment:
+      - POSTGRES_DB=radius
+      - POSTGRES_USER=debug
+      - POSTGRES_PASSWORD=debug
+    restart: always
+    networks:
+      - backend
+    command: postgres -c ssl=on -c ssl_key_file=/server.key -c ssl_cert_file=/server.crt
+
+volumes:
+  postgres_data_local: {}
+
+networks:
+  backend:
+    ipam:
+      config:
+        - subnet: 10.0.0.0/24
