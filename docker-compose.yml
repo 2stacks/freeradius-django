@@ -19,7 +19,7 @@ services:
       - API_PORT=8000
       - API_PROTOCOL=http
       - API_TOKEN=djangofreeradiusapitoken
-      - RADIUS_SSL_MODE=require
+      - RADIUS_SSL_MODE=prefer
       #- RADIUS_KEY=testing123
       #- RADIUS_CLIENTS=10.0.0.0/24
       - RADIUS_DEBUG=yes
@@ -32,7 +32,7 @@ services:
   postgres:
     image: postgres:10-alpine
     ports:
-      - "5432:5432"
+      - "127.0.0.1:5432:5432"
     volumes:
       - postgres_data_local:/var/lib/postgresql/data
       - ./certs/postgres/server.crt:/server.crt
