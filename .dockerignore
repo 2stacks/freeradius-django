@@ -3,5 +3,4 @@
 /certs/
 docs/_config.yml
 docker-compose.yml
-configs
 /backup/
