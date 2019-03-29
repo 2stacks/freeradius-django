@@ -1,4 +1,4 @@
-FROM python:3.6-alpine
+FROM python:3.7-alpine
 
 ENV PYTHONUNBUFFERED 1
 
@@ -8,16 +8,17 @@ RUN apk update \
   && apk add postgresql-dev \
   # Pillow dependencies
   && apk add jpeg-dev zlib-dev freetype-dev lcms2-dev openjpeg-dev tiff-dev tk-dev tcl-dev \
-  # CFFI dependencies
-  && apk add libffi-dev py-cffi \
-  # Translations dependencies
-  && apk add gettext \
-  # https://docs.djangoproject.com/en/dev/ref/django-admin/#dbshell
-  && apk add postgresql-client
-# TODO
+  # Mysql client dependencies
+  && apk add mariadb-connector-c-dev
+
 # Requirements are installed here to ensure they will be cached.
-COPY ./requirements /requirements
-RUN pip install -r /requirements/local.txt
+COPY ./django-freeradius/requirements.txt /requirements.txt
+COPY ./django-freeradius/requirements-test.txt /requirements-test.txt
+RUN pip install -r /requirements.txt && pip install -r /requirements-test.txt
+
+# Temporary untill new release of openwisp-utils
+RUN pip install https://github.com/openwisp/openwisp-utils/tarball/master
+RUN pip install https://github.com/openwisp/django-freeradius/tarball/master
 
 COPY ./compose/django/entrypoint /entrypoint
 RUN sed -i 's/\r//' /entrypoint
@@ -26,8 +27,6 @@ RUN chmod +x /entrypoint
 COPY ./compose/django/start /start
 RUN sed -i 's/\r//' /start
 RUN chmod +x /start
-
-COPY ./compose/django/users.csv /users.csv
 
 WORKDIR /app
 

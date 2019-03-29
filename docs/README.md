@@ -18,6 +18,10 @@ $ git clone https://github.com/2stacks/freeradius-django.git
 This will launch the Freeradius container which can be configured using environment variables to talk to a Postgresql Database and the Django-Freeradius REST API.
 ```bash
 $ docker-compose up -d
+$ docker-compose run --rm django python manage.py createsuperuser
+$ docker-compose run --rm django python manage.py batch_add_users --name users --file /users.csv
+$ docker-compose exec django python manage.py batch_add_users --name users --file /users.csv
+$ docker-compose run --rm -v $PWD/scripts/users.csv:/users.csv django python manage.py batch_add_users --name users --file /users.csv
 ```
 
 Note: If the postgresql container fails to start with the following log message, please see the sections below on generating new certs.

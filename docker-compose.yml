@@ -3,7 +3,7 @@ version: '3.2'
 services:
 
   freeradius:
-    image: 2stacks/freeradius-django:latest
+    image: 2stacks/freeradius-django
     ports:
       - "1812:1812/udp"
       - "1813:1813/udp"
@@ -15,7 +15,7 @@ services:
       #- DB_USER=debug
       #- DB_PASS=debug
       #- DB_PORT=5432
-      - API_HOST=10.0.0.1
+      - API_HOST=django
       - API_PORT=8000
       - API_PROTOCOL=http
       - API_TOKEN=djangofreeradiusapitoken
@@ -25,16 +25,38 @@ services:
       - RADIUS_DEBUG=yes
     depends_on:
       - postgres
+      - django
     restart: always
     networks:
       - backend
+
+  django:
+    build:
+      context: .
+      dockerfile: ./compose/django/Dockerfile
+    image: 2stacks/django-freeradius
+    depends_on:
+      - postgres
+    volumes:
+      - ./django-freeradius/tests:/app
+    environment:
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=radius
+      - POSTGRES_USER=debug
+      - POSTGRES_PASSWORD=debug
+    ports:
+      - "8000:8000"
+    networks:
+      - backend
+    command: /start
 
   postgres:
     image: postgres:10-alpine
     ports:
       - "127.0.0.1:5432:5432"
     volumes:
-      - postgres_data_local:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
       - ./certs/postgres/server.crt:/server.crt
       - ./certs/postgres/server.key:/server.key
       - ./certs/postgres/ca.crt:/ca.crt
@@ -48,7 +70,7 @@ services:
     command: postgres -c ssl=on -c ssl_key_file=/server.key -c ssl_cert_file=/server.crt
 
 volumes:
-  postgres_data_local: {}
+  postgres_data: {}
 
 networks:
   backend:
