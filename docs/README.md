@@ -46,6 +46,7 @@ The freeradius-django and postgres containers can be customized with environment
 ### Run Containers
 This will launch the Freeradius stack which can be configured using environment variables to talk to a Postgresql Database and the django-freeradius REST API.
 ```bash
+$ docker-compose build --pull
 $ docker-compose up -d
 $ docker-compose ps
 ```
