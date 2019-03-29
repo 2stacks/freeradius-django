@@ -11,63 +11,21 @@ This projects goal is to make it easier for contributors to django-freeradius to
 ## Getting Started
 Clone or fork this repository or simply use the included docker-compose.yml on your docker host.
 ```bash
-$ git clone https://github.com/2stacks/freeradius-django.git
+$ git clone --recurse-submodules https://github.com/2stacks/freeradius-django.git
+$ cd freeradius-django
+```
+Note: The master branch of the django-freeradius project is included as a submodule for integration testing with Docker.
+
+#### Edit Settings
+Create local settings file for customizing the django server
+```bash
+cp ./django-freeradius/tests/local_settings.example.py ./django-freeradius/tests/local_settings.py
 ```
 
-### Run containers
-This will launch the Freeradius container which can be configured using environment variables to talk to a Postgresql Database and the Django-Freeradius REST API.
+Edit local_settings.py as follows
 ```bash
-$ docker-compose up -d
-$ docker-compose run --rm django python manage.py createsuperuser
-$ docker-compose run --rm django python manage.py batch_add_users --name users --file /users.csv
-$ docker-compose exec django python manage.py batch_add_users --name users --file /users.csv
-$ docker-compose run --rm -v $PWD/scripts/users.csv:/users.csv django python manage.py batch_add_users --name users --file /users.csv
-```
+# ./django-freeradius/tests/local_settings.py
 
-Note: If the postgresql container fails to start with the following log message, please see the sections below on generating new certs.
-```bash
-[1] FATAL:  private key file "/server.key" must be owned by the database user or root
-```
-
-### Install Django Freeradius for development
-You should first be familiar with the instructions in the [django-freeradius documentation](https://django-freeradius.readthedocs.io/en/latest/general/setup.html#installing-for-development). This project deviates slightly by using a Postgresql Database instead of SQLite3.
-It is recommended that the following be done in a [python virtual environment](https://docs.python.org/3/library/venv.html).
-  
-#### Install your forked repo:
-```bash
-git clone git://github.com/<your_username>/django-freeradius
-cd django-freeradius/
-python setup.py develop
-```
-
-Note: At the time of this writing it may be necessary to update the requirements.txt to use the latest versions of openwisp-utils.
-Edit requirements.txt as shown below and then run '_pip install -r requirements.txt_'.  This should be resolved in a future release.
-```bash
-django>=2.0,<2.2
-swapper>=1.1.0,<1.2.0
-# minimum version will have to be 0.3.0
-https://github.com/openwisp/openwisp-utils/tarball/master
-https://github.com/<your_username>/django-freeradius/tarball/master
-djangorestframework>=3.8.2,<3.10.0
-passlib>=1.7.1,<1.8.0
-django-filter>=2.1.0,<2.2.0
-djangorestframework-link-header-pagination>=0.1.1,<0.2.0
-xhtml2pdf>=0.2.3,<0.3.0
-```
-
-#### Install test requirements
-```bash
-pip install -r requirements-test.txt
-```
-
-#### Create local_settings.py
-```bash
-cd tests
-cp local_settings.example.py local_settings.py
-```
-
-#### Edit local_settings.py as follows
-```bash
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -80,37 +38,46 @@ DATABASES = {
     },
 }
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '10.0.0.1', '0.0.0.0']
+ALLOWED_HOSTS = ['*']
 ```
 
-#### Create database:
+The freeradius-django and postgres containers can be customized with environment variables set in docker-compose.yml
+
+### Run Containers
+This will launch the Freeradius stack which can be configured using environment variables to talk to a Postgresql Database and the django-freeradius REST API.
 ```bash
-./manage.py migrate
-./manage.py createsuperuser
+$ docker-compose up -d
+$ docker-compose ps
 ```
 
-#### Launch development server:
+Note: If the postgresql container fails to start with the following log message, please see the sections below on generating new certs.
 ```bash
-./manage.py runserver 0.0.0.0:8000
+[1] FATAL:  private key file "/server.key" must be owned by the database user or root
 ```
-Note: The django development server needs to listen on 0.0.0.0 for the Freeradius container to communicate over the Docker bridge network.
 
-## Test container
+### Create Users
+Create a super user account and/or a test user account.
 ```bash
-$ docker run -it --rm --network freeradius-django_backend 2stacks/radtest radtest <django_user> <django_user_passwd> freeradius 0 testing123
+$ docker-compose run --rm django python manage.py createsuperuser
+$ docker-compose run --rm -v $PWD/scripts/users.csv:/users.csv django python manage.py batch_add_users --name users --file /users.csv
 ```
 
-Be sure to use the account you created with 'createsuperuser' or any other account you you may have added with django-freeradius.
+## Test containers
+```bash
+$ docker run -it --rm --network freeradius-django_backend 2stacks/radtest radtest testing password freeradius 0 testing123
+```
+
+Be sure to use the account you created with 'createsuperuser' or the 'batch_add_users' script.
 If all goes well you should recieve a response similar to;
 ```bash
-Sent Access-Request Id 181 from 0.0.0.0:44332 to 10.0.0.3:1812 length 75
-        User-Name = "admin"
-        User-Password = "P@ssw0rd!"
-        NAS-IP-Address = 10.0.0.4
+Sent Access-Request Id 234 from 0.0.0.0:57512 to 10.0.0.4:1812 length 77
+        User-Name = "testing"
+        User-Password = "password"
+        NAS-IP-Address = 10.0.0.5
         NAS-Port = 0
         Message-Authenticator = 0x00
-        Cleartext-Password = "P@ssw0rd!"
-Received Access-Accept Id 181 from 10.0.0.3:1812 to 10.0.0.4:44332 length 26
+        Cleartext-Password = "password"
+Received Access-Accept Id 234 from 10.0.0.4:1812 to 10.0.0.5:57512 length 26
         Session-Timeout = 10800
 ```
 
