@@ -1,4 +1,4 @@
-FROM freeradius/freeradius-server:latest-alpine
+FROM freeradius/freeradius-server:3.0.19-alpine
 
 MAINTAINER 2stacks <2stacks@2stacks.net>
 
@@ -6,19 +6,19 @@ RUN apk --update add postgresql-dev
 
 EXPOSE 1812/udp 1813/udp
 
-ENV DB_HOST=postgres
-ENV DB_PORT=5432
-ENV DB_USER=debug
-ENV DB_PASS=debug
-ENV DB_NAME=radius
-ENV API_HOST=django
-ENV API_PORT=8000
-ENV API_PROTOCOL=http
-ENV API_TOKEN=djangofreeradiusapitoken
-ENV RADIUS_SSL_MODE=disable
-ENV RADIUS_KEY=testing123
-ENV RADIUS_CLIENTS=10.0.0.0/24
-ENV RADIUS_DEBUG=no
+ENV DB_HOST=postgres \
+    DB_PORT=5432 \
+    DB_USER=debug \
+    DB_PASS=debug \
+    DB_NAME=radius \
+    API_HOST=django \
+    API_PORT=8000 \
+    API_PROTOCOL=http \
+    API_TOKEN=djangofreeradiusapitoken \
+    RADIUS_SSL_MODE=disable \
+    RADIUS_KEY=testing123 \
+    RADIUS_CLIENTS=10.0.0.0/24 \
+    RADIUS_DEBUG=no
 
 ADD --chown=root:root ./raddb/ /etc/raddb
 
