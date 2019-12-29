@@ -82,4 +82,4 @@ serial*
 index.txt*
 passwords.mk
 backup/*
-!/certs/postgres/*
+/certs/postgres/server.key
