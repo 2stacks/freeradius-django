@@ -17,7 +17,9 @@ $ cd freeradius-django
 Note: The master branch of the django-freeradius project is included as a submodule for integration testing with Docker.
 
 #### Edit Settings
-Create local settings file for customizing the django server
+The freeradius-django and postgres containers can be customized with environment variables set in docker-compose.yml
+
+To run the full stack with docker-compose you must first create a settings file for the django server's database connection.
 ```bash
 cp ./django-freeradius/tests/local_settings.example.py ./django-freeradius/tests/local_settings.py
 ```
@@ -32,7 +34,7 @@ DATABASES = {
         'NAME': 'radius',
         'USER': 'debug',
         'PASSWORD': 'debug',
-        'HOST': 'localhost',
+        'HOST': 'postgres',
         'PORT': '5432',
         'OPTIONS': {'sslmode': 'require'},
     },
@@ -41,7 +43,21 @@ DATABASES = {
 ALLOWED_HOSTS = ['*']
 ```
 
-The freeradius-django and postgres containers can be customized with environment variables set in docker-compose.yml
+A set of test certificates for Postgresql were generated with [easyRSA](https://github.com/OpenVPN/easy-rsa).
+You may use these for testing however, they must be made readable by the Postgresql container before use.
+```bash
+$ sudo chown root:70 ./certs/postgres/*
+$ sudo chmod 644 ./certs/postgres/*.crt
+$ sudo chmod 640 ./certs/postgres/*.key
+```
+
+Note: If you skip this step the postgresql container will fail to start with the following error message;
+```bash
+[1] FATAL:  private key file "/server.key" must be owned by the database user or root
+```
+
+To generate new certificates for Freeradius, please see the sections below on generating new certs.
+
 
 ### Run Containers
 This will launch the Freeradius stack which can be configured using environment variables to talk to a Postgresql Database and the django-freeradius REST API.
@@ -49,11 +65,6 @@ This will launch the Freeradius stack which can be configured using environment 
 $ docker-compose build --pull
 $ docker-compose up -d
 $ docker-compose ps
-```
-
-Note: If the postgresql container fails to start with the following log message, please see the sections below on generating new certs.
-```bash
-[1] FATAL:  private key file "/server.key" must be owned by the database user or root
 ```
 
 ### Create Users
@@ -139,12 +150,8 @@ From your docker host:
 $ sudo chown -R $USER:$USER ./raddb/certs
 ```
 
-Note: To create certificates for use in production environments follow directions in /etc/raddb/certs/README.  A set of
-test certificates for Postgresql were generated with [easyRSA](https://github.com/OpenVPN/easy-rsa).  They must be 
-readable by the Postgresql container before use.
-```bash
-$ sudo chown root:70 ./certs/postgres/*
-```
+Note: To create certificates for use in production environments follow directions in /etc/raddb/certs/README.
+
 
 ### Build container
 ```bash
