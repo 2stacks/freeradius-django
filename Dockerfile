@@ -1,4 +1,4 @@
-FROM freeradius/freeradius-server:3.0.21-alpine
+FROM freeradius/freeradius-server:3.0.22-alpine
 
 MAINTAINER 2stacks <2stacks@2stacks.net>
 
